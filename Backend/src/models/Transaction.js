@@ -21,8 +21,19 @@ const transactionSchema = new mongoose.Schema({
   notes: {
     type: String,
   },
+  description: {
+    type: String,
+  },
+  date: {
+    type: Date,
+    default: Date.now
+  },
   sdg_tags: {
     type: [String],
+    default: [],
+  },
+  sdgTags: {
+    type: [Number],
     default: [],
   },
   raw_input: {

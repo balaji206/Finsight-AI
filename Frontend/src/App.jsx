@@ -2,6 +2,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import ForecastPage from './pages/ForecastPage';
 import LedgerPage from './pages/LedgerPage';
+import ExpenseTrackerPage from './pages/ExpenseTrackerPage';
+import TransactionsPage from './pages/TransactionsPage';
 import './App.css';
 import './index.css';
 
@@ -19,11 +21,14 @@ function App() {
         <Route path="/forecast" element={<ForecastPage />} />
         <Route path="/market" element={<MarketPage />} />
         <Route path="/ledger" element={<LedgerPage />} />
+        <Route path="/expensetracker" element={<ExpenseTrackerPage />} />
+        <Route path="/transactions" element={<TransactionsPage />} />
         <Route path="/invest" element={<InvestPage />} />
         <Route path='/goals' element={<GoalsPage />} />
         <Route path='/coach' element={<CoachPage />} />
         <Route path='/dashboard' element={<DashboardPage />} />
         </Routes>
+
     </BrowserRouter>
   )
 }
