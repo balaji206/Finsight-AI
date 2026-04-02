@@ -9,6 +9,7 @@ import marketRoutes from "./routes/market.js";
 import watchlistRoutes from "./routes/watchlist.js";
 import ledgerRoutes from "./routes/ledger.js";
 import investRoutes from "./routes/invest.js";
+import goalRoutes from "./routes/goals.js";
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -33,6 +34,7 @@ app.use("/api/forecast", forecastRoutes);
 app.use("/api/market", marketRoutes);
 app.use("/api/watchlist", watchlistRoutes);
 app.use("/api/invest", investRoutes);
+app.use("/api/goals", goalRoutes);
 
 app.get("/", (req, res) => {
   res.json({
@@ -66,18 +68,20 @@ app.use((err, req, res, next) => {
   res.status(500).json({ success: false, message: "Internal server error" });
 });
 
-// ─── Database & Server ──────────────────────────────────
-mongoose.connect(process.env.MONGO_URI || "mongodb://localhost:27017/finsight_ai")
+// ─── Database Connection ──────────────────────────────────
+mongoose.connect(process.env.MONGO_URI || "mongodb://127.0.0.1:27017/finsight_ai")
   .then(() => {
-    console.log("✅ Successfully connected to MongoDB Locally");
-    app.listen(PORT, () => {
-      console.log(`\n🚀 FinSight AI Server running on http://localhost:${PORT}`);
-      console.log(`   Environment : ${process.env.NODE_ENV || "development"}`);
-      console.log(`   Frontend    : ${process.env.FRONTEND_URL || "http://localhost:5173"}\n`);
-    });
+    console.log("✅ MongoDB connected");
   })
   .catch(err => {
     console.error("❌ MongoDB connection error:", err);
   });
+
+// ─── ALWAYS start server ──────────────────────────────────
+app.listen(PORT, () => {
+  console.log(`\n🚀 FinSight AI Server running on http://localhost:${PORT}`);
+  console.log(`   Environment : ${process.env.NODE_ENV || "development"}`);
+  console.log(`   Frontend    : ${process.env.FRONTEND_URL || "http://localhost:5173"}\n`);
+});
 
 export default app;
