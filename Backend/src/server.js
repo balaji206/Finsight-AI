@@ -5,6 +5,7 @@ import helmet from "helmet";
 import morgan from "morgan";
 import mongoose from "mongoose";
 import ledgerRoutes from "./routes/ledger.js";
+import forecastRoutes from "./routes/forecast.js";
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -25,6 +26,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // ─── Routes ───────────────────────────────────────────────
 app.use("/api/ledger", ledgerRoutes);
+app.use("/api/forecast", forecastRoutes);
 
 app.get("/", (req, res) => {
   res.json({

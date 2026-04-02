@@ -1,10 +1,20 @@
-import LedgerPage from './pages/LedgerPage'
-import './index.css'
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import HomePage from './pages/HomePage';
+import ForecastPage from './pages/ForecastPage';
+import LedgerPage from './pages/LedgerPage';
+import './App.css';
+import './index.css';
 
 function App() {
   return (
-    <LedgerPage />
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/forecast" element={<ForecastPage />} />
+        <Route path="/ledger" element={<LedgerPage />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 
-export default App
+export default App;
