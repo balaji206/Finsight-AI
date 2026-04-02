@@ -3,6 +3,8 @@ import express from "express";
 import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
+import mongoose from "mongoose";
+import ledgerRoutes from "./routes/ledger.js";
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -22,6 +24,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // ─── Routes ───────────────────────────────────────────────
+app.use("/api/ledger", ledgerRoutes);
+
 app.get("/", (req, res) => {
   res.json({
     success: true,
@@ -54,11 +58,18 @@ app.use((err, req, res, next) => {
   res.status(500).json({ success: false, message: "Internal server error" });
 });
 
-// ─── Start Server ─────────────────────────────────────────
-app.listen(PORT, () => {
-  console.log(`\n🚀 FinSight AI Server running on http://localhost:${PORT}`);
-  console.log(`   Environment : ${process.env.NODE_ENV || "development"}`);
-  console.log(`   Frontend    : ${process.env.FRONTEND_URL || "http://localhost:5173"}\n`);
-});
+// ─── Database & Server ──────────────────────────────────
+mongoose.connect(process.env.MONGO_URI || "mongodb://localhost:27017/finsight_ai")
+  .then(() => {
+    console.log("✅ Successfully connected to MongoDB Locally");
+    app.listen(PORT, () => {
+      console.log(`\n🚀 FinSight AI Server running on http://localhost:${PORT}`);
+      console.log(`   Environment : ${process.env.NODE_ENV || "development"}`);
+      console.log(`   Frontend    : ${process.env.FRONTEND_URL || "http://localhost:5173"}\n`);
+    });
+  })
+  .catch(err => {
+    console.error("❌ MongoDB connection error:", err);
+  });
 
 export default app;
