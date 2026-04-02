@@ -6,6 +6,7 @@ import './App.css';
 import './index.css';
 
 import MarketPage from './pages/MarketPage';
+import InvestPage from './pages/InvestPage';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/forecast" element={<ForecastPage />} />
         <Route path="/market" element={<MarketPage />} />
         <Route path="/ledger" element={<LedgerPage />} />
+        <Route path="/invest" element={<InvestPage />} />
         </Routes>
     </BrowserRouter>
   )
