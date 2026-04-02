@@ -1,8 +1,7 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import Anthropic from "@anthropic-ai/sdk";
 
-const apiKey = process.env.GEMINI_API_KEY || "AIzaSyB2oINLU96RTGwmJZRQl_ICyPNnNYtyKSA";
-const genAI = new GoogleGenerativeAI(apiKey);
-const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+const apiKey = process.env.ANTHROPIC_API_KEY || "";
+const anthropic = new Anthropic({ apiKey });
 
 /**
  * Offline regex parser used as an automatic fallback when the API key is leaked or rejected!
@@ -45,17 +44,20 @@ Output exactly this JSON structure:
 }`;
 
   try {
-    const result = await model.generateContent({
-      contents: [{ role: "user", parts: [{ text: systemInstruction + "\n\nUser Input: " + rawInput }] }],
-      generationConfig: { temperature: 0.1 }
+    const response = await anthropic.messages.create({
+      model: "claude-3-haiku-20240307",
+      max_tokens: 500,
+      temperature: 0.1,
+      system: systemInstruction,
+      messages: [{ role: "user", content: "User Input: " + rawInput }]
     });
 
-    const content = result.response.text().trim();
+    const content = response.content[0].text.trim();
     const cleanContent = content.replace(/^```json/gi, "").replace(/```$/g, "").trim();
     return JSON.parse(cleanContent);
   } catch (error) {
-    console.warn("⚠️ Gemini API failed (Leaked key). Falling back to offline NLP processor! Error:", error.message);
-    return offlineFallbackParser(rawInput); // Solves the 500 error by running it safely offline!
+    console.warn("⚠️ Anthropic API failed. Falling back to offline NLP processor! Error:", error.message);
+    return offlineFallbackParser(rawInput); // Solves the error by running safely offline!
   }
 };
 
@@ -70,14 +72,16 @@ export const generateWeeklySummary = async (transactions) => {
   const prompt = `Analyze these recent transactions and write a 2-3 sentence encouraging, beginner-friendly summary of their financial week. Acknowledge both expenses and profits if present. Provide amounts in ₹. Explicitly list the UN SDGs supported based on their sdg_tags.\n\nTransactions: ${JSON.stringify(transactions)}`;
 
   try {
-    const result = await model.generateContent({
-      contents: [{ role: "user", parts: [{ text: prompt }] }],
-      generationConfig: { temperature: 0.6 }
+    const response = await anthropic.messages.create({
+      model: "claude-3-haiku-20240307",
+      max_tokens: 300,
+      temperature: 0.6,
+      messages: [{ role: "user", content: prompt }]
     });
 
-    return result.response.text().trim();
+    return response.content[0].text.trim();
   } catch (error) {
-    console.warn("⚠️ Gemini API failed (Leaked key). Falling back to offline summarizer!");
+    console.warn("⚠️ Anthropic API failed. Falling back to offline summarizer!");
     
     // Offline summarizing failover
     let totalExpenses = 0, totalProfits = 0;
