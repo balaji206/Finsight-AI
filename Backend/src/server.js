@@ -8,6 +8,7 @@ import forecastRoutes from "./routes/forecast.js";
 import marketRoutes from "./routes/market.js";
 import watchlistRoutes from "./routes/watchlist.js";
 import ledgerRoutes from "./routes/ledger.js";
+import investRoutes from "./routes/invest.js";
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -31,6 +32,7 @@ app.use("/api/ledger", ledgerRoutes);
 app.use("/api/forecast", forecastRoutes);
 app.use("/api/market", marketRoutes);
 app.use("/api/watchlist", watchlistRoutes);
+app.use("/api/invest", investRoutes);
 
 app.get("/", (req, res) => {
   res.json({
