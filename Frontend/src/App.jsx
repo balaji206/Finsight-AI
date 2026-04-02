@@ -8,6 +8,7 @@ import './index.css';
 import MarketPage from './pages/MarketPage';
 import InvestPage from './pages/InvestPage';
 import GoalsPage from './pages/GoalsPage';
+import CoachPage from './pages/CoachPage';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/ledger" element={<LedgerPage />} />
         <Route path="/invest" element={<InvestPage />} />
         <Route path='/goals' element={<GoalsPage />} />
+        <Route path='/coach' element={<CoachPage />} />
         </Routes>
     </BrowserRouter>
   )
