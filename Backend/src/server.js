@@ -3,6 +3,7 @@ import express from "express";
 import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
+import forecastRoutes from "./routes/forecast.js";
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -22,6 +23,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // ─── Routes ───────────────────────────────────────────────
+app.use("/api/forecast", forecastRoutes);
+
 app.get("/", (req, res) => {
   res.json({
     success: true,
