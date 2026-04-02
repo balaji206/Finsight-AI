@@ -9,6 +9,7 @@ import MarketPage from './pages/MarketPage';
 import InvestPage from './pages/InvestPage';
 import GoalsPage from './pages/GoalsPage';
 import CoachPage from './pages/CoachPage';
+import DashboardPage from './pages/DashboardPage';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/invest" element={<InvestPage />} />
         <Route path='/goals' element={<GoalsPage />} />
         <Route path='/coach' element={<CoachPage />} />
+        <Route path='/dashboard' element={<DashboardPage />} />
         </Routes>
     </BrowserRouter>
   )

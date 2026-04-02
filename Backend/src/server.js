@@ -11,6 +11,7 @@ import ledgerRoutes from "./routes/ledger.js";
 import investRoutes from "./routes/invest.js";
 import goalRoutes from "./routes/goals.js";
 import coachRoutes from "./routes/coach.js";
+import dashboardRoutes from "./routes/dashboard.js";
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -37,6 +38,7 @@ app.use("/api/watchlist", watchlistRoutes);
 app.use("/api/invest", investRoutes);
 app.use("/api/goals", goalRoutes);
 app.use("/api/coach", coachRoutes);
+app.use("/api/dashboard", dashboardRoutes);
 
 app.get("/", (req, res) => {
   res.json({
