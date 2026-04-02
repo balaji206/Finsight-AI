@@ -5,6 +5,8 @@ import helmet from "helmet";
 import morgan from "morgan";
 import mongoose from "mongoose";
 import forecastRoutes from "./routes/forecast.js";
+import trackerRoutes from "./routes/expenseTracker.js";
+import transactionsRouter from "./routes/transactions.js";
 import marketRoutes from "./routes/market.js";
 import watchlistRoutes from "./routes/watchlist.js";
 import ledgerRoutes from "./routes/ledger.js";
@@ -31,6 +33,8 @@ app.use(express.urlencoded({ extended: true }));
 // ─── Routes ───────────────────────────────────────────────
 app.use("/api/ledger", ledgerRoutes);
 app.use("/api/forecast", forecastRoutes);
+app.use("/api/tracker", trackerRoutes);
+app.use("/api/transactions", transactionsRouter);
 app.use("/api/market", marketRoutes);
 app.use("/api/watchlist", watchlistRoutes);
 app.use("/api/invest", investRoutes);
