@@ -3,10 +3,18 @@ import express from "express";
 import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
+import mongoose from "mongoose";
 import forecastRoutes from "./routes/forecast.js";
+import marketRoutes from "./routes/market.js";
+import watchlistRoutes from "./routes/watchlist.js";
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+
+// ─── Database ─────────────────────────────────────────────
+mongoose.connect(process.env.MONGO_URI || "mongodb://127.0.0.1:27017/finsight")
+  .then(() => console.log("✅ MongoDB Connected"))
+  .catch(err => console.error("❌ MongoDB Error:", err));
 
 // ─── Middleware ───────────────────────────────────────────
 app.use(helmet());
@@ -24,6 +32,8 @@ app.use(express.urlencoded({ extended: true }));
 
 // ─── Routes ───────────────────────────────────────────────
 app.use("/api/forecast", forecastRoutes);
+app.use("/api/market", marketRoutes);
+app.use("/api/watchlist", watchlistRoutes);
 
 app.get("/", (req, res) => {
   res.json({
