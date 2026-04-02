@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import axios from 'axios';
 import {
   LineChart, Line, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, Legend, ResponsiveContainer,
@@ -26,6 +26,34 @@ export default function ForecastPage() {
     { name: "Debt", allocation: 30, expectedReturn: 0.07, volatility: 0.05, sdgFactor: 0.2 },
     { name: "Sustainable Funds", allocation: 10, expectedReturn: 0.09, volatility: 0.14, sdgFactor: 0.9 }
   ]);
+
+  useEffect(() => {
+    try {
+      const injected = JSON.parse(localStorage.getItem('sdgSimulations') || '[]');
+      if (injected.length > 0) {
+        setPortfolio(prev => {
+          const existingNames = prev.map(p => p.name);
+          const newAssets = injected.filter(i => !existingNames.includes(i.name));
+          if (newAssets.length === 0) return prev;
+          
+          let updated = [...prev, ...newAssets];
+          const newAllocations = newAssets.reduce((sum, a) => sum + a.allocation, 0);
+          
+          const equityIdx = updated.findIndex(p => p.name === "Equity");
+          if (equityIdx !== -1 && updated[equityIdx].allocation >= newAllocations) {
+            updated[equityIdx] = { 
+              ...updated[equityIdx], 
+              allocation: updated[equityIdx].allocation - newAllocations 
+            };
+          }
+          
+          return updated;
+        });
+      }
+    } catch (e) {
+      console.error("Local storage bridge failed", e);
+    }
+  }, []);
 
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState(null);
