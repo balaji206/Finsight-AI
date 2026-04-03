@@ -3,32 +3,14 @@ import { detectDrains } from "../services/drainDetectionService.js";
 import { parseCSVPreview } from "../services/csvParserService.js";
 import { assignSDGTags } from "../services/sdgMapping.js";
 import fs from "fs";
-import Anthropic from "@anthropic-ai/sdk";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
-const apiKey = process.env.ANTHROPIC_API_KEY || "";
-const anthropic = new Anthropic({ apiKey });
+const apiKey = process.env.GEMINI_API_KEY || "";
+const genAI = new GoogleGenerativeAI(apiKey);
 
 export const getTransactions = async (req, res) => {
   try {
     const { userId = "demo-user", type, category, sdg } = req.query;
-    
-    // Auto-seed transactions if collection is completely empty
-    const count = await Transaction.countDocuments({ user_id: userId });
-    if (count === 0) {
-      const sampleData = [
-        { user_id: userId, type: "income", amount: 65000, category: "salary", description: "Tech Corp Monthly Salary", sdgTags: [], date: new Date() },
-        { user_id: userId, type: "expense", amount: 15000, category: "rent", description: "Apartment Rent", sdgTags: [11], date: new Date(Date.now() - 100000000) },
-        { user_id: userId, type: "expense", amount: 1200, category: "utilities_green", description: "Electricity Bill (Solar grid)", sdgTags: [7], date: new Date(Date.now() - 200000000) },
-        { user_id: userId, type: "expense", amount: 800, category: "food", description: "Zomato Dinner", sdgTags: [2, 12], date: new Date(Date.now() - 300000000) },
-        { user_id: userId, type: "expense", amount: 649, category: "subscriptions", description: "Netflix Premium", sdgTags: [12], date: new Date(Date.now() - 400000000) },
-        { user_id: userId, type: "expense", amount: 299, category: "subscriptions", description: "Spotify Duo", sdgTags: [12], date: new Date(Date.now() - 450000000) },
-        { user_id: userId, type: "expense", amount: 350, category: "transport_public", description: "Metro Card Recharge", sdgTags: [11, 13], date: new Date(Date.now() - 500000000) },
-        { user_id: userId, type: "expense", amount: 2500, category: "shopping_local", description: "Organic Farmers Market", sdgTags: [8, 12], date: new Date(Date.now() - 600000000) },
-        { user_id: userId, type: "expense", amount: 12000, category: "investment_esg", description: "Green Bond Mutual Fund SIP", sdgTags: [17], date: new Date(Date.now() - 700000000) },
-        { user_id: userId, type: "expense", amount: 500, category: "health", description: "Apollo Pharmacy", sdgTags: [3], date: new Date(Date.now() - 800000000) }
-      ];
-      await Transaction.insertMany(sampleData);
-    }
     
     // Build offline Mongoose Filter Matcher
     const filter = { user_id: userId };
@@ -125,15 +107,12 @@ export const runAIParse = async (req, res) => {
     const { rawText } = req.body;
     
     try {
-      const response = await anthropic.messages.create({
-        model: "claude-3-haiku-20240307",
-        max_tokens: 300,
-        temperature: 0.1,
-        system: `You are a strict financial Receipt parsing AI. Output perfectly structured JSON only: { "amount": number, "type": "expense" or "income", "category": "food", "description": "string" }`,
-        messages: [{ role: "user", content: "Receipt Text: " + rawText }]
+      const model = genAI.getGenerativeModel({ 
+         model: "gemini-2.5-flash",
+         systemInstruction: `You are a strict financial Receipt parsing AI. Output perfectly structured JSON only: { "amount": number, "type": "expense" or "income", "category": "food", "description": "string" }`
       });
-
-      const content = response.content[0].text.trim();
+      const result = await model.generateContent("Receipt Text: " + rawText);
+      const content = result.response.text().trim();
       const cleanContent = content.replace(/^```json/gi, "").replace(/```$/g, "").trim();
       const aiData = JSON.parse(cleanContent);
       

@@ -1,8 +1,8 @@
 import { Transaction } from "../models/Transaction.js";
-import Anthropic from "@anthropic-ai/sdk";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
-const apiKey = process.env.ANTHROPIC_API_KEY || "";
-const anthropic = new Anthropic({ apiKey });
+const apiKey = process.env.GEMINI_API_KEY || "";
+const genAI = new GoogleGenerativeAI(apiKey);
 
 /**
  * Handles GET /api/tracker/analysis
@@ -64,15 +64,9 @@ Your response MUST be strict JSON matching exactly this schema, with NO markdown
 
     let parsedData;
     try {
-      const response = await anthropic.messages.create({
-        model: "claude-3-haiku-20240307",
-        max_tokens: 1500,
-        temperature: 0.2,
-        system: systemPrompt,
-        messages: [{ role: "user", content: "Transactions: " + JSON.stringify(txSummary) }]
-      });
-
-      const content = response.content[0].text.trim();
+      const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash", systemInstruction: systemPrompt });
+      const result = await model.generateContent("Transactions: " + JSON.stringify(txSummary));
+      const content = result.response.text().trim();
       const cleanContent = content.replace(/^```json/gi, "").replace(/```$/g, "").trim();
       parsedData = JSON.parse(cleanContent);
     } catch (apiError) {
