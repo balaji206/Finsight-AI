@@ -188,7 +188,7 @@ const InvestPage = () => {
               <button 
                 type="submit" 
                 disabled={loading}
-                className="w-full bg-indigo-600 text-white font-medium py-3 rounded-xl hover:bg-indigo-700 transition disabled:bg-indigo-400"
+                className="w-full bg-white text-black font-bold py-3 rounded-xl hover:bg-gray-200 transition disabled:bg-white/50 shadow-md border border-gray-200"
               >
                 {loading ? 'Analyzing Profile...' : 'Get Recommendations'}
               </button>

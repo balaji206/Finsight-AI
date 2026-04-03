@@ -1,45 +1,66 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import HomePage from './pages/HomePage';
-import ForecastPage from './pages/ForecastPage';
-import LedgerPage from './pages/LedgerPage';
-import ExpenseTrackerPage from './pages/ExpenseTrackerPage';
-import TransactionsPage from './pages/TransactionsPage';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { lazy, Suspense } from 'react';
+import ProtectedLayout from './components/ProtectedLayout';
 import './App.css';
 import './index.css';
 
-import MarketPage from './pages/MarketPage';
-import InvestPage from './pages/InvestPage';
-import GoalsPage from './pages/GoalsPage';
+// Lazy load all pages for performance
+const LandingPage        = lazy(() => import('./pages/LandingPage'));
+const AuthPage           = lazy(() => import('./pages/AuthPage'));
+const DashboardPage      = lazy(() => import('./pages/DashboardPage'));
+const ForecastPage       = lazy(() => import('./pages/ForecastPage'));
+const LedgerPage         = lazy(() => import('./pages/LedgerPage'));
+const ExpenseTrackerPage = lazy(() => import('./pages/ExpenseTrackerPage'));
+const TransactionsPage   = lazy(() => import('./pages/TransactionsPage'));
+const MarketPage         = lazy(() => import('./pages/MarketPage'));
+const InvestPage         = lazy(() => import('./pages/InvestPage'));
+const GoalsPage          = lazy(() => import('./pages/GoalsPage'));
+const BudgetPlannerPage  = lazy(() => import('./pages/BudgetPlannerPage'));
+const CoachPage          = lazy(() => import('./pages/CoachPage'));
 
-import BudgetPlannerPage from './pages/BudgetPlannerPage';
+// Loading spinner — black themed
+const PageLoader = () => (
+  <div style={{ display:'flex', alignItems:'center', justifyContent:'center', height:'100vh', background:'#000' }}>
+    <div style={{ width:'30px', height:'30px', border:'2px solid rgba(255,255,255,0.08)', borderTopColor:'#fff', borderRadius:'50%', animation:'spin 0.7s linear infinite' }} />
+    <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+  </div>
+);
 
-import CoachPage from './pages/CoachPage';
-import DashboardPage from './pages/DashboardPage';
-
+// Auth guard — redirects to /login if no token
+function RequireAuth({ children }) {
+  return localStorage.getItem('token')
+    ? <ProtectedLayout>{children}</ProtectedLayout>
+    : <Navigate to="/login" replace />;
+}
 
 function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/forecast" element={<ForecastPage />} />
-        <Route path="/market" element={<MarketPage />} />
-        <Route path="/ledger" element={<LedgerPage />} />
-        <Route path="/expensetracker" element={<ExpenseTrackerPage />} />
-        <Route path="/transactions" element={<TransactionsPage />} />
-        <Route path="/invest" element={<InvestPage />} />
-        <Route path='/goals' element={<GoalsPage />} />
+      <Suspense fallback={<PageLoader />}>
+        <Routes>
+          {/* Public routes */}
+          <Route path="/"         element={<LandingPage />} />
+          <Route path="/login"    element={<AuthPage mode="login" />} />
+          <Route path="/register" element={<AuthPage mode="register" />} />
 
-        <Route path="/budget" element={<BudgetPlannerPage />} />
-      
+          {/* Protected routes — all wrapped with ProtectedLayout (navbar + footer) */}
+          <Route path="/dashboard"      element={<RequireAuth><DashboardPage /></RequireAuth>} />
+          <Route path="/expensetracker" element={<RequireAuth><ExpenseTrackerPage /></RequireAuth>} />
+          <Route path="/budget"         element={<RequireAuth><BudgetPlannerPage /></RequireAuth>} />
+          <Route path="/goals"          element={<RequireAuth><GoalsPage /></RequireAuth>} />
+          <Route path="/forecast"       element={<RequireAuth><ForecastPage /></RequireAuth>} />
+          <Route path="/invest"         element={<RequireAuth><InvestPage /></RequireAuth>} />
+          <Route path="/market"         element={<RequireAuth><MarketPage /></RequireAuth>} />
+          <Route path="/ledger"         element={<RequireAuth><LedgerPage /></RequireAuth>} />
+          <Route path="/transactions"   element={<RequireAuth><TransactionsPage /></RequireAuth>} />
+          <Route path="/coach"          element={<RequireAuth><CoachPage /></RequireAuth>} />
 
-        <Route path='/coach' element={<CoachPage />} />
-        <Route path='/dashboard' element={<DashboardPage />} />
+          {/* Catch-all */}
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
-
-
+      </Suspense>
     </BrowserRouter>
-  )
+  );
 }
 
 export default App;

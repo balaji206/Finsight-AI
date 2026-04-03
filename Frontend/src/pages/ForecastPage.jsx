@@ -114,19 +114,19 @@ export default function ForecastPage() {
   const totalAllocation = portfolio.reduce((acc, curr) => acc + curr.allocation, 0);
 
   return (
-    <div className="min-h-screen bg-slate-50 p-4 md:p-8 font-sans">
+    <div className="min-h-screen bg-black text-white p-4 md:p-8 pt-24 font-sans">
       <div className="max-w-7xl mx-auto space-y-8">
-        <div className="flex items-center justify-between border-b border-slate-200 pb-4">
-          <h1 className="text-3xl font-bold text-slate-800">Growth & SDG Forecast</h1>
-          <span className="text-sm bg-blue-100 text-blue-700 px-3 py-1 rounded-full font-semibold drop-shadow-sm">
+        <div className="flex items-center justify-between border-b border-white/10 pb-4">
+          <h1 className="text-3xl font-bold text-white">Growth & SDG Forecast</h1>
+          <span className="text-sm bg-white/10 text-white/60 px-3 py-1 rounded-full font-semibold drop-shadow-sm">
             AI Monte Carlo Engine
           </span>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Controls Form */}
-          <div className="lg:col-span-1 bg-white p-6 rounded-2xl shadow-sm border border-slate-100 h-fit">
-            <h2 className="text-xl font-bold mb-6 text-slate-700">Simulation Parameters</h2>
+          <div className="lg:col-span-1 bg-[#0a0a0a] p-6 rounded-2xl shadow-sm border border-white/10 h-fit">
+            <h2 className="text-xl font-bold mb-6 text-white/90">Simulation Parameters</h2>
             
             <div className="space-y-4 text-left">
               {[
@@ -138,15 +138,15 @@ export default function ForecastPage() {
                 { label: 'Inflation Rate', name: 'inflationRate', step: "0.01" },
                 { label: 'Current SDG Score', name: 'sdgInitialScore' }
               ].map(field => (
-                <div key={field.name} className="flex flex-col text-slate-700">
-                  <label className="block text-sm font-semibold text-slate-600 mb-1">{field.label}</label>
+                <div key={field.name} className="flex flex-col text-white/80">
+                  <label className="block text-sm font-semibold text-white/60 mb-1">{field.label}</label>
                   <input
                     type="number"
                     step={field.step || "1"}
                     name={field.name}
                     value={formData[field.name]}
                     onChange={handleInputChange}
-                    className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition"
+                    className="w-full p-2.5 bg-black border border-white/10 rounded-lg focus:ring-2 focus:ring-white/50 outline-none transition text-white"
                   />
                 </div>
               ))}
@@ -154,16 +154,16 @@ export default function ForecastPage() {
 
             <div className="mt-8 text-left">
               <div className="flex justify-between items-center mb-4">
-                <h3 className="text-lg font-bold text-slate-700">Portfolio Design</h3>
-                <span className={`text-sm font-bold px-2 py-1 rounded ${totalAllocation === 100 ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+                <h3 className="text-lg font-bold text-white/90">Portfolio Design</h3>
+                <span className={`text-sm font-bold px-2 py-1 rounded ${totalAllocation === 100 ? 'bg-white/10 text-white' : 'bg-red-500/20 text-red-500'}`}>
                   {totalAllocation}%
                 </span>
               </div>
               
               <div className="space-y-4">
                 {portfolio.map((asset, i) => (
-                  <div key={i} className="p-4 border border-slate-200 rounded-xl bg-slate-50 relative group">
-                    <button onClick={() => removeAsset(i)} className="absolute top-3 right-3 text-slate-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition">✕</button>
+                  <div key={i} className="p-4 border border-white/10 rounded-xl bg-black relative group">
+                    <button onClick={() => removeAsset(i)} className="absolute top-3 right-3 text-white/40 hover:text-red-500 opacity-0 group-hover:opacity-100 transition">✕</button>
                     <input
                       type="text"
                       value={asset.name}
@@ -172,30 +172,30 @@ export default function ForecastPage() {
                         updated[i].name = e.target.value;
                         setPortfolio(updated);
                       }}
-                      className="font-bold text-slate-700 bg-transparent border-b border-slate-300 w-[85%] mb-3 outline-none focus:border-blue-500 transition"
+                      className="font-bold text-white/90 bg-transparent border-b border-white/20 w-[85%] mb-3 outline-none focus:border-white/50 transition"
                     />
                     <div className="grid grid-cols-2 gap-3 text-sm">
                       <div>
-                        <label className="text-xs text-slate-500 font-semibold mb-1 block">Allocation %</label>
-                        <input type="number" value={asset.allocation} onChange={(e) => handlePortfolioChange(i, 'allocation', e.target.value)} className="w-full p-2 border border-slate-300 rounded shadow-sm outline-none focus:border-blue-500" />
+                        <label className="text-xs text-white/60 font-semibold mb-1 block">Allocation %</label>
+                        <input type="number" value={asset.allocation} onChange={(e) => handlePortfolioChange(i, 'allocation', e.target.value)} className="w-full p-2 bg-black border text-white border-white/10 rounded shadow-sm outline-none focus:border-white/50" />
                       </div>
                       <div>
-                        <label className="text-xs text-slate-500 font-semibold mb-1 block">Expected Ret.</label>
-                        <input type="number" step="0.01" value={asset.expectedReturn} onChange={(e) => handlePortfolioChange(i, 'expectedReturn', e.target.value)} className="w-full p-2 border border-slate-300 rounded shadow-sm outline-none focus:border-blue-500" />
+                        <label className="text-xs text-white/60 font-semibold mb-1 block">Expected Ret.</label>
+                        <input type="number" step="0.01" value={asset.expectedReturn} onChange={(e) => handlePortfolioChange(i, 'expectedReturn', e.target.value)} className="w-full p-2 border bg-black text-white border-white/10 rounded shadow-sm outline-none focus:border-white/50" />
                       </div>
                       <div>
-                        <label className="text-xs text-slate-500 font-semibold mb-1 block">Volatility</label>
-                        <input type="number" step="0.01" value={asset.volatility} onChange={(e) => handlePortfolioChange(i, 'volatility', e.target.value)} className="w-full p-2 border border-slate-300 rounded shadow-sm outline-none focus:border-blue-500" />
+                        <label className="text-xs text-white/60 font-semibold mb-1 block">Volatility</label>
+                        <input type="number" step="0.01" value={asset.volatility} onChange={(e) => handlePortfolioChange(i, 'volatility', e.target.value)} className="w-full p-2 border bg-black text-white border-white/10 rounded shadow-sm outline-none focus:border-white/50" />
                       </div>
                       <div>
-                        <label className="text-xs text-slate-500 font-semibold mb-1 block">SDG Factor</label>
-                        <input type="number" step="0.1" value={asset.sdgFactor} onChange={(e) => handlePortfolioChange(i, 'sdgFactor', e.target.value)} className="w-full p-2 border border-slate-300 rounded shadow-sm outline-none focus:border-blue-500" />
+                        <label className="text-xs text-white/60 font-semibold mb-1 block">SDG Factor</label>
+                        <input type="number" step="0.1" value={asset.sdgFactor} onChange={(e) => handlePortfolioChange(i, 'sdgFactor', e.target.value)} className="w-full p-2 border bg-black text-white border-white/10 rounded shadow-sm outline-none focus:border-white/50" />
                       </div>
                     </div>
                   </div>
                 ))}
               </div>
-              <button onClick={addAsset} className="w-full mt-4 py-2.5 border-2 border-dashed border-slate-300 text-slate-600 font-semibold rounded-lg hover:bg-slate-100 transition">
+              <button onClick={addAsset} className="w-full mt-4 py-2.5 border-2 border-dashed border-white/20 text-white/60 font-semibold rounded-lg hover:bg-white/5 transition">
                 + Add Asset
               </button>
             </div>
@@ -203,16 +203,16 @@ export default function ForecastPage() {
             <button
               onClick={runForecast}
               disabled={loading || totalAllocation !== 100}
-              className="w-full mt-8 bg-blue-600 hover:bg-blue-700 disabled:bg-slate-300 text-white font-bold py-3.5 rounded-xl shadow-md hover:shadow-lg transition flex justify-center items-center"
+              className="w-full mt-8 bg-white text-black hover:bg-slate-200 disabled:bg-white/20 disabled:text-white/50 font-bold py-3.5 rounded-xl shadow-[0_0_15px_rgba(255,255,255,0.1)] hover:shadow-[0_0_25px_rgba(255,255,255,0.3)] transition-all flex justify-center items-center relative z-10"
             >
               {loading ? (
-                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-black"></div>
               ) : (
                 'Run Monte Carlo Forecast'
               )}
             </button>
             
-            {error && <div className="mt-4 p-3 bg-red-50 text-red-700 rounded-lg text-sm font-medium border border-red-100 break-words">{error}</div>}
+            {error && <div className="mt-4 p-3 bg-red-500/10 text-red-500 rounded-lg text-sm font-medium border border-red-500/20 break-words">{error}</div>}
           </div>
 
           {/* Results Analytics Panel */}
@@ -220,65 +220,65 @@ export default function ForecastPage() {
             {results ? (
               <>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-left">
-                  <div className="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
-                    <div className="text-xs text-slate-500 font-semibold uppercase tracking-wider mb-1">Mean Final NW</div>
-                    <div className="text-2xl font-bold text-slate-800">{formatRupee(results.summary.finalMeanNetWorth)}</div>
+                  <div className="bg-[#0a0a0a] p-5 rounded-2xl shadow-sm border border-white/10">
+                    <div className="text-xs text-white/60 font-semibold uppercase tracking-wider mb-1">Mean Final NW</div>
+                    <div className="text-2xl font-bold text-white">{formatRupee(results.summary.finalMeanNetWorth)}</div>
                   </div>
-                  <div className="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
-                    <div className="text-xs text-slate-500 font-semibold uppercase tracking-wider mb-1">P10 (Worst Case)</div>
-                    <div className="text-2xl font-bold text-red-500">{formatRupee(results.summary.finalP10NetWorth)}</div>
+                  <div className="bg-[#0a0a0a] p-5 rounded-2xl shadow-sm border border-white/10">
+                    <div className="text-xs text-white/60 font-semibold uppercase tracking-wider mb-1">P10 (Worst Case)</div>
+                    <div className="text-2xl font-bold text-white/50">{formatRupee(results.summary.finalP10NetWorth)}</div>
                   </div>
-                  <div className="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
-                    <div className="text-xs text-slate-500 font-semibold uppercase tracking-wider mb-1">P90 (Best Case)</div>
-                    <div className="text-2xl font-bold text-emerald-500">{formatRupee(results.summary.finalP90NetWorth)}</div>
+                  <div className="bg-[#0a0a0a] p-5 rounded-2xl shadow-sm border border-white/10">
+                    <div className="text-xs text-white/60 font-semibold uppercase tracking-wider mb-1">P90 (Best Case)</div>
+                    <div className="text-2xl font-bold text-white">{formatRupee(results.summary.finalP90NetWorth)}</div>
                   </div>
-                  <div className="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
-                    <div className="text-xs text-slate-500 font-semibold uppercase tracking-wider mb-1">Doubling Prob.</div>
-                    <div className="text-2xl font-bold text-blue-600">{results.summary.probabilityOfDoubling.toFixed(1)}%</div>
+                  <div className="bg-[#0a0a0a] p-5 rounded-2xl shadow-sm border border-white/10">
+                    <div className="text-xs text-white/60 font-semibold uppercase tracking-wider mb-1">Doubling Prob.</div>
+                    <div className="text-2xl font-bold text-white">{results.summary.probabilityOfDoubling.toFixed(1)}%</div>
                   </div>
                 </div>
 
-                <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 h-96">
-                  <h3 className="font-bold text-slate-800 mb-6 flex items-center">
-                    <span className="w-3 h-3 bg-blue-500 rounded-full mr-2"></span>
+                <div className="bg-[#0a0a0a] p-6 rounded-2xl shadow-sm border border-white/10 h-96">
+                  <h3 className="font-bold text-white mb-6 flex items-center">
+                    <span className="w-3 h-3 bg-white rounded-full mr-2"></span>
                     Net Worth Projection Fan Chart
                   </h3>
                   <ResponsiveContainer width="100%" height="90%">
                     <AreaChart data={projectionData} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
-                      <CartesianGrid strokeDasharray="3 3" vertical={false} opacity={0.4} />
-                      <XAxis dataKey="year" fontSize={12} tickLine={false} axisLine={false} />
-                      <YAxis tickFormatter={(val) => `₹${(val/1e7).toFixed(1)}Cr`} fontSize={12} tickLine={false} axisLine={false} />
-                      <RechartsTooltip formatter={(val) => formatRupee(val)} />
+                      <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.1)" />
+                      <XAxis dataKey="year" fontSize={12} tickLine={false} axisLine={false} tick={{fill:"#888"}} />
+                      <YAxis tickFormatter={(val) => `₹${(val/1e7).toFixed(1)}Cr`} fontSize={12} tickLine={false} axisLine={false} tick={{fill:"#888"}} />
+                      <RechartsTooltip contentStyle={{backgroundColor: '#0a0a0a', borderColor: 'rgba(255,255,255,0.1)', color: '#fff'}} formatter={(val) => formatRupee(val)} />
                       <Legend verticalAlign="top" height={36} />
-                      <Area type="monotone" dataKey="p90NW" stroke="none" fill="#e0f2fe" name="90th Percentile" />
-                      <Area type="monotone" dataKey="p10NW" stroke="none" fill="#bae6fd" name="10th Percentile" />
-                      <Line type="monotone" dataKey="meanNW" stroke="#0ea5e9" strokeWidth={3} dot={false} name="Mean Trajectory" />
+                      <Area type="monotone" dataKey="p90NW" stroke="none" fill="rgba(255,255,255,0.2)" name="90th Percentile" />
+                      <Area type="monotone" dataKey="p10NW" stroke="none" fill="rgba(255,255,255,0.4)" name="10th Percentile" />
+                      <Line type="monotone" dataKey="meanNW" stroke="#ffffff" strokeWidth={3} dot={false} name="Mean Trajectory" />
                     </AreaChart>
                   </ResponsiveContainer>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {/* SDG Line Chart */}
-                  <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 h-80">
-                    <h3 className="font-bold text-slate-800 mb-6 flex items-center">
-                      <span className="w-3 h-3 bg-emerald-500 rounded-full mr-2"></span>
+                  <div className="bg-[#0a0a0a] p-6 rounded-2xl shadow-sm border border-white/10 h-80">
+                    <h3 className="font-bold text-white mb-6 flex items-center">
+                      <span className="w-3 h-3 bg-white/60 rounded-full mr-2"></span>
                       SDG Impact Trajectory
                     </h3>
                     <ResponsiveContainer width="100%" height="85%">
                       <LineChart data={projectionData}>
-                        <CartesianGrid strokeDasharray="3 3" vertical={false} opacity={0.4} />
-                        <XAxis dataKey="year" fontSize={12} tickLine={false} axisLine={false} />
-                        <YAxis domain={['auto', 'auto']} fontSize={12} tickLine={false} axisLine={false} />
-                        <RechartsTooltip formatter={(val) => val.toFixed(1)} />
-                        <Line type="monotone" dataKey="meanSDG" stroke="#10b981" strokeWidth={3} dot={false} name="Mean SDG Score" />
+                        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.1)" />
+                        <XAxis dataKey="year" fontSize={12} tickLine={false} axisLine={false} tick={{fill:"#888"}} />
+                        <YAxis domain={['auto', 'auto']} fontSize={12} tickLine={false} axisLine={false} tick={{fill:"#888"}} />
+                        <RechartsTooltip contentStyle={{backgroundColor: '#0a0a0a', borderColor: 'rgba(255,255,255,0.1)', color: '#fff'}} formatter={(val) => val.toFixed(1)} />
+                        <Line type="monotone" dataKey="meanSDG" stroke="#ffffff" strokeWidth={3} dot={false} name="Mean SDG Score" />
                       </LineChart>
                     </ResponsiveContainer>
                   </div>
 
                   {/* Allocation Pie Chart */}
-                  <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 h-80">
-                    <h3 className="font-bold text-slate-800 mb-4 flex items-center">
-                      <span className="w-3 h-3 bg-indigo-500 rounded-full mr-2"></span>
+                  <div className="bg-[#0a0a0a] p-6 rounded-2xl shadow-sm border border-white/10 h-80">
+                    <h3 className="font-bold text-white mb-4 flex items-center">
+                      <span className="w-3 h-3 bg-white/40 rounded-full mr-2"></span>
                       Portfolio Allocation
                     </h3>
                     <ResponsiveContainer width="100%" height="90%">
@@ -292,11 +292,11 @@ export default function ForecastPage() {
                           paddingAngle={5}
                           dataKey="allocation"
                         >
-                          {portfolio.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={PIE_COLORS[index % PIE_COLORS.length]} />
-                          ))}
+                          {portfolio.map((entry, index) => {
+                             return <Cell key={`cell-${index}`} fill={PIE_COLORS[index % PIE_COLORS.length]} />;
+                          })}
                         </Pie>
-                        <RechartsTooltip formatter={(val) => `${val}%`} />
+                        <RechartsTooltip contentStyle={{backgroundColor: '#0a0a0a', borderColor: 'rgba(255,255,255,0.1)', color: '#fff'}} formatter={(val) => `${val}%`} />
                         <Legend />
                       </PieChart>
                     </ResponsiveContainer>

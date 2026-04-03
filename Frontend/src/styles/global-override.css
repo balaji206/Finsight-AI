@@ -1,0 +1,113 @@
+/* ══════════════════════════════════════════════════════
+   STRICT GLOBAL THEME — Black / White / Silver ONLY
+   Does NOT override fixed/sticky elements or navbar
+   ══════════════════════════════════════════════════════ */
+
+/* ── Force black bg on page containers only ── */
+body { background: #000 !important; color: #fff !important; }
+
+/* Tailwind page containers */
+[class~="bg-gray-50"],
+[class~="bg-gray-100"],
+[class~="bg-gray-200"],
+[class~="bg-white"] {
+  background-color: #000 !important;
+}
+
+/* Accent bg overrides */
+[class~="bg-emerald-500"], [class~="bg-emerald-600"],
+[class~="bg-green-500"], [class~="bg-green-600"],
+[class~="bg-teal-500"], [class~="bg-teal-600"],
+[class~="bg-blue-500"], [class~="bg-blue-600"], [class~="bg-blue-700"],
+[class~="bg-indigo-600"], [class~="bg-indigo-700"],
+[class~="bg-purple-600"], [class~="bg-purple-700"],
+[class~="bg-orange-50"], [class~="bg-orange-100"],
+[class~="bg-emerald-50"], [class~="bg-emerald-100"],
+[class~="bg-blue-50"], [class~="bg-blue-100"],
+[class~="bg-green-50"], [class~="bg-green-100"],
+[class~="bg-red-50"], [class~="bg-red-100"] {
+  background-color: rgba(255,255,255,0.04) !important;
+  color: #fff !important;
+}
+
+/* Gradient overrides */
+[class*="from-emerald"],
+[class*="from-green"],
+[class*="from-blue"],
+[class*="from-indigo"],
+[class*="from-purple"],
+[class*="from-teal"],
+[class*="from-gray-50"],
+[class*="from-slate"] {
+  background: #000 !important;
+  background-image: none !important;
+}
+
+/* ── Text color overrides ── */
+[class~="text-gray-900"],
+[class~="text-gray-800"],
+[class~="text-gray-700"],
+[class~="text-black"] { color: #fff !important; }
+
+[class~="text-gray-600"],
+[class~="text-gray-500"],
+[class~="text-gray-400"],
+[class~="text-gray-300"] { color: rgba(255,255,255,0.45) !important; }
+
+[class~="text-emerald-700"], [class~="text-emerald-600"],
+[class~="text-emerald-900"], [class~="text-green-900"],
+[class~="text-blue-900"], [class~="text-blue-800"],
+[class~="text-orange-900"], [class~="text-orange-800"],
+[class~="text-indigo-600"], [class~="text-purple-600"] {
+  color: rgba(255,255,255,0.7) !important;
+}
+
+/* ── Border overrides ── */
+[class~="border-gray-100"],
+[class~="border-gray-200"],
+[class~="border-emerald-100"],
+[class~="border-blue-200"],
+[class~="border-orange-200"] {
+  border-color: rgba(255,255,255,0.07) !important;
+}
+
+/* ── Remove colored shadows ── */
+[class*="shadow-emerald"],
+[class*="shadow-blue"],
+[class*="shadow-green"],
+[class*="shadow-ind"],
+[class*="shadow-purp"] { box-shadow: none !important; }
+
+/* ── Cards and panels ── */
+[class~="rounded-3xl"],
+[class~="rounded-2xl"],
+[class~="rounded-xl"],
+[class~="rounded-lg"] {
+  background-color: rgba(255,255,255,0.02) !important;
+  border-color: rgba(255,255,255,0.07) !important;
+}
+
+/* ── Chart tooltip ── */
+.recharts-default-tooltip {
+  background: #111 !important;
+  border: 1px solid rgba(255,255,255,0.08) !important;
+  color: #fff !important;
+}
+.recharts-cartesian-grid line { stroke: rgba(255,255,255,0.04) !important; }
+.recharts-text, .recharts-label { fill: rgba(255,255,255,0.4) !important; }
+
+/* ── Inputs ── */
+input:not([class*="et-"]):not([class*="auth-"]),
+textarea:not([class*="et-"]):not([class*="auth-"]),
+select {
+  background: rgba(255,255,255,0.03) !important;
+  border-color: rgba(255,255,255,0.1) !important;
+  color: #fff !important;
+}
+input::placeholder, textarea::placeholder { color: rgba(255,255,255,0.2) !important; }
+
+/* ── Pulse animation dots ── */
+[class*="bg-green-5"][class*="rounded-full"],
+[class*="animate-pulse"][class*="bg-"] {
+  background-color: #fff !important;
+}

@@ -1,0 +1,169 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,700;0,800;0,900&display=swap');
+
+/* ── Full-width transparent wrapper ───────────────── */
+.snav-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 70px; /* Fixed height so logo doesn't bloat the navbar */
+  padding: 0.75rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end; /* Push right actions to the edge */
+  z-index: 999;
+  pointer-events: none; /* click-through on the transparent gap */
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.snav-hidden {
+  transform: translateY(-100%);
+}
+
+/* ── Logo — absolutely positioned so it can overflow without shifting the rest */
+.snav-logo {
+  pointer-events: auto;
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 1.5rem;
+}
+
+.snav-logo-img {
+  height: 220px;
+  min-width: 100px;
+  max-width: 400px;
+  width: auto;
+  object-fit: contain;
+  filter: brightness(1.2) contrast(1.1);
+  transition: opacity 0.2s;
+  display: block;
+}
+
+.snav-logo:hover .snav-logo-img { opacity: 0.8; }
+
+/* ── Glass pill — links only, centered ─────────────── */
+.snav-pill {
+  pointer-events: auto;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 0.1rem;
+
+  background: rgba(8, 8, 8, 0.65);
+  backdrop-filter: blur(32px) saturate(180%) brightness(1.1);
+  -webkit-backdrop-filter: blur(32px) saturate(180%) brightness(1.1);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 99px;
+  padding: 0.45rem 0.75rem;
+  box-shadow:
+    0 8px 40px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+
+  overflow-x: auto;
+  scrollbar-width: none;
+  max-width: calc(100vw - 400px); /* leave room for logo + actions */
+}
+
+.snav-pill::-webkit-scrollbar { display: none; }
+
+/* ── Nav links inside pill ─────────────────────────── */
+.snav-link {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.77rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: rgba(255, 255, 255, 0.42);
+  background: none;
+  border: none;
+  padding: 0.38rem 0.7rem;
+  border-radius: 99px;
+  cursor: pointer;
+  white-space: nowrap;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  transition: color 0.2s, background 0.2s;
+}
+
+.snav-link:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.snav-link.active {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* ── Right actions — outside pill ─────────────────── */
+.snav-actions {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+.snav-btn-signout {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  background: #fff;
+  color: #000;
+  border: none;
+  padding: 0.5rem 1.25rem;
+  border-radius: 99px;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.15s;
+  letter-spacing: 0.01em;
+}
+
+.snav-btn-signout:hover {
+  opacity: 0.88;
+  transform: translateY(-1px);
+}
+
+.snav-btn-ghost {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 500;
+  background: none;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.7);
+  padding: 0.48rem 1.1rem;
+  border-radius: 99px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.snav-btn-ghost:hover {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+.snav-btn-solid {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  background: #fff;
+  color: #000;
+  border: none;
+  padding: 0.5rem 1.25rem;
+  border-radius: 99px;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.15s;
+}
+
+.snav-btn-solid:hover { opacity: 0.88; transform: translateY(-1px); }
+
+/* ── Mobile ────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .snav-pill { display: none; }
+  .snav-wrapper { padding: 0.6rem 1.25rem; }
+  .snav-logo-img { height: 56px; }
+}
