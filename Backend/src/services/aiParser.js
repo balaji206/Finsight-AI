@@ -1,7 +1,7 @@
-import Anthropic from "@anthropic-ai/sdk";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
-const apiKey = process.env.ANTHROPIC_API_KEY || "";
-const anthropic = new Anthropic({ apiKey });
+const apiKey = process.env.GEMINI_API_KEY || "";
+const genAI = new GoogleGenerativeAI(apiKey);
 
 /**
  * Offline regex parser used as an automatic fallback when the API key is leaked or rejected!
@@ -44,15 +44,9 @@ Output exactly this JSON structure:
 }`;
 
   try {
-    const response = await anthropic.messages.create({
-      model: "claude-3-haiku-20240307",
-      max_tokens: 500,
-      temperature: 0.1,
-      system: systemInstruction,
-      messages: [{ role: "user", content: "User Input: " + rawInput }]
-    });
-
-    const content = response.content[0].text.trim();
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash", systemInstruction });
+    const result = await model.generateContent("User Input: " + rawInput);
+    const content = result.response.text().trim();
     const cleanContent = content.replace(/^```json/gi, "").replace(/```$/g, "").trim();
     return JSON.parse(cleanContent);
   } catch (error) {
@@ -72,14 +66,9 @@ export const generateWeeklySummary = async (transactions) => {
   const prompt = `Analyze these recent transactions and write a 2-3 sentence encouraging, beginner-friendly summary of their financial week. Acknowledge both expenses and profits if present. Provide amounts in ₹. Explicitly list the UN SDGs supported based on their sdg_tags.\n\nTransactions: ${JSON.stringify(transactions)}`;
 
   try {
-    const response = await anthropic.messages.create({
-      model: "claude-3-haiku-20240307",
-      max_tokens: 300,
-      temperature: 0.6,
-      messages: [{ role: "user", content: prompt }]
-    });
-
-    return response.content[0].text.trim();
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+    const result = await model.generateContent(prompt);
+    return result.response.text().trim();
   } catch (error) {
     console.warn("⚠️ Anthropic API failed. Falling back to offline summarizer!");
     
