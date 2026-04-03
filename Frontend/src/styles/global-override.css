@@ -4,7 +4,7 @@
    ══════════════════════════════════════════════════════ */
 
 /* ── Force black bg on page containers only ── */
-body { background: #000 !important; color: #fff !important; }
+html, body, #root { background: #000 !important; color: #fff !important; }
 
 /* Tailwind page containers */
 [class~="bg-gray-50"],

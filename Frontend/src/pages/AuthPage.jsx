@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import logoImg from '../assets/Logo.png';
 import './AuthPage.css';
 
 const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
@@ -46,8 +47,31 @@ export default function AuthPage({ mode = 'login' }) {
 
   return (
     <div className="auth-root">
-       <nav className="auth-nav">
-         <div className="lp-logo" onClick={() => navigate('/')}>FinSight</div>
+       <nav className="auth-nav" style={{ position: 'relative', height: '70px', borderBottom: '1px solid rgba(255, 255, 255, 0.05)', display: 'flex' }}>
+         <div 
+           onClick={() => navigate('/')} 
+           style={{ 
+             position: 'absolute', 
+             top: '50%', 
+             transform: 'translateY(-50%)', 
+             left: '4rem', 
+             cursor: 'pointer' 
+           }}
+         >
+           <img 
+             src={logoImg} 
+             alt="FinSight Logo" 
+             style={{ 
+               height: '220px', 
+               minWidth: '100px', 
+               maxWidth: '400px', 
+               width: 'auto', 
+               objectFit: 'contain', 
+               filter: 'brightness(1.2) contrast(1.1)',
+               display: 'block'
+             }} 
+           />
+         </div>
        </nav>
 
        <div className="auth-header">
