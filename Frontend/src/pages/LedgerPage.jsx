@@ -112,7 +112,7 @@ export default function LedgerPage() {
         </p>
 
         <div className="flex items-center gap-2">
-          <label className="bg-green-600 text-white cursor-pointer px-4 py-2 rounded shadow-sm hover:bg-green-700 font-semibold whitespace-nowrap text-sm disabled:opacity-50 inline-flex items-center gap-2">
+          <label className="bg-white text-black border-2 border-black cursor-pointer px-5 py-2.5 rounded-full shadow-md hover:bg-gray-100 font-black whitespace-nowrap text-sm disabled:opacity-50 inline-flex items-center gap-2 transition-all">
              {uploadLoading ? "Analyzing Statement..." : "+ Upload UPI / Bank CSV"}
              <input type="file" accept=".csv" className="hidden" onChange={handleFileUpload} disabled={uploadLoading} />
           </label>

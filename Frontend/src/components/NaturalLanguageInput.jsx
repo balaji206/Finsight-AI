@@ -29,7 +29,7 @@ export default function NaturalLanguageInput({ onLog }) {
         <button
           type="submit"
           disabled={loading}
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:opacity-50"
+          className="bg-white text-black border border-gray-300 font-bold px-6 py-2 rounded-xl hover:bg-gray-200 transition disabled:opacity-50 shadow-sm"
         >
           {loading ? "Logging..." : "Log"}
         </button>

@@ -17,6 +17,7 @@ import budgetRoutes from "./routes/budget.js";
 
 import coachRoutes from "./routes/coach.js";
 import dashboardRoutes from "./routes/dashboard.js";
+import authRoutes from "./routes/auth.js";
 
 
 const app = express();
@@ -37,6 +38,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // ─── Routes ───────────────────────────────────────────────
+app.use("/api/auth", authRoutes);
 app.use("/api/ledger", ledgerRoutes);
 app.use("/api/forecast", forecastRoutes);
 app.use("/api/tracker", trackerRoutes);
